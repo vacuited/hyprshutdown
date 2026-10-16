@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string_view>
 
 #include <hyprtoolkit/core/Backend.hpp>
 #include <hyprtoolkit/window/Window.hpp>
@@ -16,6 +17,7 @@
 #include <hyprutils/signal/Listener.hpp>
 
 #include "../helpers/Memory.hpp"
+#include "Theme.hpp"
 
 class CMonitorState {
   public:
@@ -31,29 +33,44 @@ class CMonitorState {
     std::string m_monitorName;
 
   private:
-    SP<Hyprtoolkit::IWindow>              m_window;
+    SP<Hyprtoolkit::IWindow>               m_window;
 
-    SP<Hyprtoolkit::CRectangleElement>    m_bg;
-    SP<Hyprtoolkit::CNullElement>         m_null;
-    SP<Hyprtoolkit::CNullElement>         m_spacer, m_spacer2;
-    SP<Hyprtoolkit::CColumnLayoutElement> m_layout;
-    SP<Hyprtoolkit::CTextElement>         m_topText;
-    SP<Hyprtoolkit::CTextElement>         m_subText;
-    SP<Hyprtoolkit::CRowLayoutElement>    m_buttonLayout;
-    SP<Hyprtoolkit::CButtonElement>       m_forceQuit, m_cancel;
+    SP<Hyprtoolkit::CRectangleElement>     m_bg;
+    SP<Hyprtoolkit::CNullElement>          m_null;
+    SP<Hyprtoolkit::CRectangleElement>     m_cardRect;
+    SP<Hyprtoolkit::CNullElement>          m_cardPad;
+    SP<Hyprtoolkit::CColumnLayoutElement>  m_layout;
 
-    SP<Hyprtoolkit::CNullElement>         m_appListNull;
-    SP<Hyprtoolkit::CRectangleElement>    m_appListRect;
-    SP<Hyprtoolkit::CScrollAreaElement>   m_appListScroll;
-    SP<Hyprtoolkit::CColumnLayoutElement> m_appListLayout;
+    SP<Hyprtoolkit::CRowLayoutElement>     m_headerRow;
+    SP<Hyprtoolkit::CTextElement>          m_topText;
+    SP<Hyprtoolkit::CRectangleElement>     m_badgeRect;
+    SP<Hyprtoolkit::CTextElement>          m_badgeText;
+
+    SP<Hyprtoolkit::CTextElement>          m_subText;
+
+    SP<Hyprtoolkit::CNullElement>          m_appListNull;
+    SP<Hyprtoolkit::CRectangleElement>     m_appListRect;
+    SP<Hyprtoolkit::CNullElement>          m_appListPad;
+    SP<Hyprtoolkit::CScrollAreaElement>    m_appListScroll;
+    SP<Hyprtoolkit::CColumnLayoutElement>  m_appListLayout;
+
+    SP<Hyprtoolkit::CRowLayoutElement>     m_buttonLayout;
+    SP<Hyprtoolkit::CRectangleElement>     m_cancelRect;
+    SP<Hyprtoolkit::CRectangleElement>     m_forceQuitRect;
+    SP<Hyprtoolkit::CButtonElement>        m_cancel;
+    SP<Hyprtoolkit::CButtonElement>        m_forceQuit;
+
+    Hyprutils::Signal::CHyprSignalListener m_keyListener;
 
     struct SAppListApp {
         SAppListApp(const std::string_view& clazz, const std::string_view& title);
 
-        SP<Hyprtoolkit::CNullElement>         m_null, m_titleNull, m_classNull;
+        SP<Hyprtoolkit::CNullElement>         m_null;
+        SP<Hyprtoolkit::CRectangleElement>    m_card;
+        SP<Hyprtoolkit::CNullElement>         m_inner;
         SP<Hyprtoolkit::CColumnLayoutElement> m_layout;
-        SP<Hyprtoolkit::CTextElement>         m_title;
         SP<Hyprtoolkit::CTextElement>         m_class;
+        SP<Hyprtoolkit::CTextElement>         m_title;
     };
 
     std::vector<UP<SAppListApp>> m_apps;
